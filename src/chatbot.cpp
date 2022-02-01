@@ -65,7 +65,7 @@ ChatBot &ChatBot::operator=(const ChatBot &source) // 3 : copy assignment operat
         std::cout << "ASSIGNING content of instance " << &source << " to instance " << this << std::endl;
         if (this == &source)
             return *this;
-        delete[] _image;
+        delete _image;
         _image = new wxBitmap(*source._image);
         _chatLogic = source._chatLogic;
         _rootNode = source._rootNode;
@@ -75,7 +75,7 @@ ChatBot &ChatBot::operator=(const ChatBot &source) // 3 : copy assignment operat
 // 4 : move constructor
 ChatBot::ChatBot(ChatBot &&source) // 4 : move constructor
     {
-        std::cout << "MOVING (c’tor) instance " << &source << " to instance " << this << std::endl;
+        std::cout << "MOVING (constructor) instance " << &source << " to instance " << this << std::endl;
         _chatLogic = source._chatLogic;
         _rootNode = source._rootNode;
         _image = source._image;
@@ -152,6 +152,7 @@ void ChatBot::SetCurrentNode(GraphNode *node)
     std::string answer = answers.at(dis(generator));
 
     // send selected node answer to user
+    _chatLogic->SetChatbotHandle(this);
     _chatLogic->SendMessageToUser(answer);
 }
 
